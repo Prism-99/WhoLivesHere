@@ -6,7 +6,7 @@ using Prism99_Core.PatchingFramework;
 using Prism99_Core.Utilities;
 using StardewValley;
 using StardewValley.Buildings;
-
+using StardewValley.Locations;
 
 namespace WhoLivesHere
 {
@@ -15,20 +15,31 @@ namespace WhoLivesHere
     /// </summary>
     internal static class VersionLevel
     {
+        public static AnimalHouse? GetHoverBuilding()
+        {
+            if (Game1.currentLocation is BuildableGameLocation gl)
+            {
+                Building building= gl.getBuildingAt(Game1.currentCursorTile);
+                if (building !=null && building.indoors.Value != null && building.indoors.Value is AnimalHouse house)
+                    return house;
+            }
+
+            return null;
+        }
         public static int MaxCapacity(Building house)
         {
-            return house.maxOccupants;   
+            return house.maxOccupants;
         }
         public static bool WasFeed(FarmAnimal animal)
         {
-            return  animal.fullness.Value>200;
+            return animal.fullness.Value > 200;
         }
         /// <summary>
         /// Add required harmony postafix patches required for drawing
         /// </summary>
         /// <param name="modId">Modid for Haromony initialization</param>
         /// <param name="logger">SDVLogger</param>
-        public static void ApplyPatches(string modId,SDVLogger logger)
+        public static void ApplyPatches(string modId, SDVLogger logger)
         {
             GamePatches Patches = new GamePatches();
             Patches.Initialize(modId, logger);

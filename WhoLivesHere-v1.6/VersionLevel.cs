@@ -10,13 +10,22 @@ namespace WhoLivesHere
     /// </summary>
     internal static class VersionLevel
     {
+        public static AnimalHouse? GetHoverBuilding()
+        {
+            Building building= Game1.currentLocation.getBuildingAt(Game1.currentCursorTile);
+
+            if (building != null &&  building.indoors.Value != null && building.indoors.Value is AnimalHouse house)
+                return house;
+
+            return null;
+        }
         public static int MaxCapacity(Building house)
         {
             return house.GetData().MaxOccupants;
         }
         public static bool WasFeed(FarmAnimal animal)
         {
-           return animal.fullness.Value >= 200;
+            return animal.fullness.Value >= 200;
         }
         /// <summary>
         /// Add required harmony postafix patches required for drawing

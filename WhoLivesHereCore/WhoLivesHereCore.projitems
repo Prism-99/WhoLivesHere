@@ -9,8 +9,14 @@
     <Import_RootNamespace>WhoLivesHereCore</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)i18n\I18n.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WhoLivesHereConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WhoLivesHereEntry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WhoLivesHereLogic.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)i18n\default.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

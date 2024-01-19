@@ -3,6 +3,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewModdingAPI.Utilities;
 using WhoLivesHereCore;
+using WhoLivesHereCore.i18n;
 
 namespace WhoLivesHere.GMCM
 {
@@ -18,6 +19,9 @@ namespace WhoLivesHere.GMCM
             //  default values.
             //
             config.ToggleKey = new KeybindList(new Keybind(SButton.LeftControl, SButton.N), new Keybind(SButton.RightControl, SButton.N));
+            config.AutoOffTime = 0;
+            config.AutoOnTime = 0;
+            config.PageDelay = 250;
         }
         public static void Initialize(IModHelper ohelper, IManifest omanifest, WhoLivesHereConfig oconfig)
         {
@@ -26,7 +30,7 @@ namespace WhoLivesHere.GMCM
             config = oconfig;
             helper.Events.GameLoop.GameLaunched += OnGameLaunched;
         }
-        private static void OnGameLaunched(object sender, GameLaunchedEventArgs e)
+        private static void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
         {
             // get Generic Mod Config Menu's API (if it's installed)
             var configMenu = helper.ModRegistry.GetApi<IGenericModConfigMenuApi>("spacechase0.GenericModConfigMenu");
@@ -50,12 +54,39 @@ namespace WhoLivesHere.GMCM
             );
             configMenu.AddKeybindList(
               mod: manifest,
-              name: () => "Toggle Key",
-              tooltip: () => "Key to toggle occupant display",
+              name: () => I18n.ToggleKey(),
+              tooltip: () => I18n.ToggleKey_TT(),
                getValue: () => config.ToggleKey,
                setValue: value => config.ToggleKey = value
-
            );
+            configMenu.AddNumberOption(
+              mod: manifest,
+              name: () => I18n.PageDelay(),
+              tooltip: () => I18n.PageDelay_TT(),
+              getValue: () => config.PageDelay,
+              setValue: value => config.PageDelay = value
+          );
+            configMenu.AddBoolOption(
+             mod: manifest,
+             name: () => I18n.HideEmpty(),
+             tooltip: () => I18n.HideEmpty_TT(),
+             getValue: () => config.HideEmptyTabs,
+             setValue: value => config.HideEmptyTabs = value
+         );
+            configMenu.AddNumberOption(
+             mod: manifest,
+             name: () => I18n.AutoOn(),
+             tooltip: () => I18n.AutoOn_TT(),
+             getValue: () => config.AutoOnTime,
+             setValue: value => config.AutoOnTime = value
+         );
+            configMenu.AddNumberOption(
+             mod: manifest,
+             name: () => I18n.AutoOff(),
+             tooltip: () => I18n.AutoOff_TT(),
+             getValue: () => config.AutoOffTime,
+             setValue: value => config.AutoOffTime = value
+         );
         }
     }
 }
